@@ -10,14 +10,14 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="">Home</a></li>
-                        <li class="breadcrumb-item">Obat Tanaman</li>
+                        <li class="breadcrumb-item">Gejala Penyakit</li>
                     </ol>
                 </div>
             </div>
             <div class="row mb-2">
                 <div class="col-12">
                     <button class="btn-sm btn-success p-2" data-target="#tambahModal" data-toggle="modal">
-                        <i class="fas fa-fw fa-sm fa-plus"></i> Tambah Obat
+                        <i class="fas fa-fw fa-sm fa-plus"></i> Tambah Gejala
                     </button>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                     <div class="card">
                         <!-- Card Header (Start) -->
                         <div class="card-header">
-                            <h2 class="card-title">Tabel Obat untuk Penyakit Tanaman Padi</h2>
+                            <h2 class="card-title">Tabel Gejala Penyakit Tanaman Padi</h2>
                         </div>
                         <!-- Card Header (End) -->
                         <!-- Card Body (Start) -->
@@ -89,8 +89,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Nama Dagang</th>
-                                        <th>Nama Bahan Aktif</th>
+                                        <th>Gejala</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -99,20 +98,19 @@
                                 <tbody>
                                     <?php
                                     $i = 1;
-                                    foreach ($obat as $det_obat) :
+                                    foreach ($gejala as $det_gejala) :
                                     ?>
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><?= $det_obat['nama_dagang']; ?></td>
-                                            <td><?= $det_obat['nama_bahan_aktif']; ?></td>
+                                            <td><?= $det_gejala['gejala']; ?></td>
                                             <td class="d-flex justify-content-around">
                                                 <?php
-                                                $enc_kode_obat = substr($det_obat['kode_obat'], 2);
+                                                $enc_kode_gejala = substr($det_gejala['kode_gejala'], 2);
                                                 ?>
-                                                <button class="btn btn-sm btn-warning ubah_obat" data-kode="<?= $enc_kode_obat; ?>" data-toggle="modal" data-target="#ubahModal">
+                                                <button class="btn btn-sm btn-warning ubah_gejala" data-kode="<?= $enc_kode_gejala; ?>" data-toggle="modal" data-target="#ubahModal">
                                                     <i class="fas fa-fw fa-edit text-white"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger hapus_obat" data-kode="<?= $enc_kode_obat; ?>" data-toggle="modal" data-target="#hapusModal">
+                                                <button class="btn btn-sm btn-danger hapus_gejala" data-kode="<?= $enc_kode_gejala; ?>" data-toggle="modal" data-target="#hapusModal">
                                                     <i class="fas fa-fw fa-trash-alt text-white"></i>
                                                 </button>
                                             </td>
@@ -137,7 +135,7 @@
 </div>
 <!-- Content Wrapper End -->
 
-<!-- Modal Tambah Obat (Start) -->
+<!-- Modal Tambah Gejala (Start) -->
 <div class="modal fade" id="tambahModal">
     <!-- Modal Dialog (Start) -->
     <div class="modal-dialog">
@@ -145,7 +143,7 @@
         <div class="modal-content">
             <!-- Modal Header (Start) -->
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Obat</h4>
+                <h4 class="modal-title">Tambah Gejala</h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -153,17 +151,11 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('obat/insert'); ?>" method="post">
+                <form action="<?= base_url('gejala/insert'); ?>" method="post">
                     <!-- Input Group (Start) -->
                     <div class="form-group">
-                        <label for="nama_bahan">Nama Bahan Aktif</label>
-                        <input type="text" name="nama_bahan" id="nama_bahan" class="form-control" placeholder="Natrium Benzoat 250ml">
-                    </div>
-                    <!-- Input Group (End) -->
-                    <!-- Input Group (Start) -->
-                    <div class="form-group">
-                        <label for="nama_dagang">Nama Dagang</label>
-                        <input type="text" name="nama_dagang" id="nama_dagang" class="form-control" placeholder="Pupuk Cap Gajah">
+                        <label for="gejala">Gejala Penyakit</label>
+                        <textarea name="gejala" id="gejala" class="form-control" placeholder="Batang Terbakar" cols="30" rows="10"></textarea>
                     </div>
                     <!-- Input Group (End) -->
             </div>
@@ -180,9 +172,9 @@
     </div>
     <!-- Modal Dialog (End) -->
 </div>
-<!-- Modal Tambah Obat (End) -->
+<!-- Modal Tambah Gejala (End) -->
 
-<!-- Modal Ubah Obat (Start) -->
+<!-- Modal Ubah Gejala (Start) -->
 <div class="modal fade" id="ubahModal">
     <!-- Modal Dialog (Start) -->
     <div class="modal-dialog">
@@ -190,7 +182,7 @@
         <div class="modal-content">
             <!-- Modal Header (Start) -->
             <div class="modal-header">
-                <h4 class="modal-title">Ubah Obat</h4>
+                <h4 class="modal-title">Ubah Gejala</h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -198,18 +190,12 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('obat/ubah'); ?>" method="post">
-                    <input type="hidden" name="kd_obt_ubah" id="kd_obt_ubah" value="">
+                <form action="<?= base_url('gejala/ubah'); ?>" method="post">
+                    <input type="hidden" name="kd_gjl_ubah" id="kd_gjl_ubah" value="">
                     <!-- Input Group (Start) -->
                     <div class="form-group">
-                        <label for="nama_bahan">Nama Bahan Aktif</label>
-                        <input type="text" name="nama_bahan_ubah" id="nama_bahan_ubah" class="form-control" placeholder="Natrium Benzoat 250ml">
-                    </div>
-                    <!-- Input Group (End) -->
-                    <!-- Input Group (Start) -->
-                    <div class="form-group">
-                        <label for="nama_dagang">Nama Dagang</label>
-                        <input type="text" name="nama_dagang_ubah" id="nama_dagang_ubah" class="form-control" placeholder="Pupuk Cap Gajah">
+                        <label for="gejala">Gejala Penyakit</label>
+                        <textarea name="gejala_ubah" id="gejala_ubah" class="form-control" placeholder="Batang Terbakar" cols="30" rows="10"></textarea>
                     </div>
                     <!-- Input Group (End) -->
             </div>
@@ -226,7 +212,7 @@
     </div>
     <!-- Modal Dialog (End) -->
 </div>
-<!-- Modal Ubah Obat (End) -->
+<!-- Modal Ubah Gejala (End) -->
 
 <!-- Modal Hapus (Start) -->
 <div class="modal fade" id="hapusModal">
@@ -236,7 +222,7 @@
         <div class="modal-content">
             <!-- Modal Header (Start) -->
             <div class="modal-header">
-                <h4 class="modal-title">Hapus Obat</h4>
+                <h4 class="modal-title">Hapus Gejala</h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -250,7 +236,7 @@
             <!-- Modal Footer (Start) -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary btn-sm" id="hapus_obat">Hapus</button>
+                <button type="button" class="btn btn-primary btn-sm" id="hapus_gejala">Hapus</button>
             </div>
             <!-- Modal Footer (End) -->
         </div>

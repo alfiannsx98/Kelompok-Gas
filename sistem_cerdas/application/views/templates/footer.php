@@ -103,6 +103,8 @@
         });
     });
 </script>
+
+<!-- JavaScript untuk Obat -->
 <script>
     $('#example1 tbody').on('click', '.ubah_obat', function() {
         // Mengambil data
@@ -157,6 +159,66 @@
             method: "post",
             success: function() {
                 window.location.href = "http://localhost/kelompok-gas/sistem_cerdas/obat/";
+            }
+        });
+
+    });
+</script>
+
+<!-- JavaScript untuk Gejala -->
+<script>
+    $('#example1 tbody').on('click', '.ubah_gejala', function() {
+        // Mengambil data
+        let kode_gejala = $(this).data("kode");
+
+        // Mengambil modal
+        let modal_ubah = $('#ubahModal');
+
+        // Menjalankan ajax
+        $.ajax({
+            url: "http://localhost/kelompok-gas/sistem_cerdas/gejala/retrieve",
+            data: {
+                kode_gejala: "GJ" + kode_gejala
+            },
+            method: "post",
+            dataType: "json",
+            success: function(data) {
+                modal_ubah.find('#kd_gjl_ubah').val(data.kode_gejala.substring(2));
+                modal_ubah.find('#gejala_ubah').val(data.gejala);
+            }
+        });
+
+    });
+
+    $('#example1 tbody').on('click', '.hapus_gejala', function() {
+        // Mengambil data
+        let kode_gejala = $(this).data("kode");
+
+        // Mengambil modal
+        let modal_hapus = $('#hapusModal');
+
+        // Menemukan tombol hapus
+        let tombol_hapus = modal_hapus.find('#hapus_gejala');
+
+        // Mengisi meta data pada tombol hapus
+        tombol_hapus.attr("data-kode", kode_gejala);
+
+    });
+
+    $('#hapus_gejala').on('click', function() {
+
+        // Mengambil kode gejala
+        let kode_gejala = 'GJ' + $(this).attr('data-kode');
+
+        // Menjalankan ajax
+        $.ajax({
+            url: "http://localhost/kelompok-gas/sistem_cerdas/gejala/hapus",
+            data: {
+                kode_gejala: kode_gejala
+            },
+            method: "post",
+            success: function() {
+                window.location.href = "http://localhost/kelompok-gas/sistem_cerdas/gejala/";
             }
         });
 
