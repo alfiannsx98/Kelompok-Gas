@@ -30,9 +30,6 @@
       <p class="mt-3 mb-1">
         <a href="<?= base_url('auth'); ?>">Login</a>
       </p>
-      <p class="mb-0">
-        <a href="<?= base_url('auth/register'); ?>" class="text-center">Register a new membership</a>
-      </p>
     </div>
     <!-- /.login-card-body -->
   </div>

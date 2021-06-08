@@ -42,9 +42,6 @@
       <p class="mb-1 text-center">
         <a href="<?= base_url('auth/lupapassword') ?>">Forgot Password</a>
       </p>
-      <p class="mb-0 text-center">
-        <a href="<?= base_url('auth/register'); ?>" class="text-center">Register Here!</a>
-      </p>
     </div>
     <!-- /.login-card-body -->
   </div>
