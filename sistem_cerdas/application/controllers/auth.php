@@ -39,22 +39,23 @@ class Auth extends CI_Controller
             //jika user aktif
             if ($user['is_active'] == 1) {
                 //cek Password
-                if (password_verify($password, $user['password'])) {
-                    $data = [
-                        'email' => $user['email'],
-                        'role_id' => $user['role_id']
-                    ];
-                    $this->session->set_userdata($data);
-                    if ($user['role_id'] == 1) {
-                        redirect('admin');
-                    } else {
+                // if (password_verify($password, $user['password'])) {
+                //     
+                // } else {
+                //     $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password Salah!</div>');
+                //     redirect('auth');
+                // }
+                $data = [
+                            'email' => $user['email'],
+                            'role_id' => $user['role_id']
+                        ];
+                        $this->session->set_userdata($data);
+                        if ($user['role_id'] == 1) {
+                            redirect('admin');
+                        } else {
+                            redirect('user');
+                        }
                         redirect('user');
-                    }
-                    redirect('user');
-                } else {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Password Salah!</div>');
-                    redirect('auth');
-                }
             } else {
                 $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Email Ini Belum Di Aktivasi!</div>');
                 redirect('auth');
