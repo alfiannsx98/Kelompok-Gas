@@ -35,16 +35,25 @@ class Opt extends CI_Controller
         $this->load->view('opt/index');
         $this->load->view('templates/footer');
     }
-
+    public function simpan()
+    {
+        print_r($this->input->post('kategori'));
+    }
     public function insert()
     {
         $nama_opt = $this->input->post("nama_opt");
         $nama_inggris = $this->input->post("nama_inggris");
+        $kategori = $this->input->post('kategori');
+
+        // $query = $this->db->query("SELECT MAX(id_user) as iduser from user");
+        // $tabel1 = $query->row();
+        // $no =  substr($tabel1->iduser, 4, 5) + 1;
+        // $kode = "ID-U" . $no;
 
         // Membuat rules
         $this->form_validation->set_rules('nama_opt', 'Nama OPT', 'required|trim|regex_match[/^[a-zA-Z0-9\s.-\/]+$/]');
         $this->form_validation->set_rules('nama_inggris', 'Nama Inggris', 'required|trim|regex_match[/^[a-zA-Z0-9\s.-\/]+$/]');
-
+        $this->form_validation->set_rules('kategori', 'Kategori', 'required');
         // Membuat pesan
         $this->form_validation->set_message('required', 'Kolom {field} tidak boleh kosong.');
         $this->form_validation->set_message('regex_match', 'Kalimat mengandung karakter terlarang.');
@@ -54,9 +63,44 @@ class Opt extends CI_Controller
             // Jika form_validation mengembalikan nilai error
             $this->index();
         } else {
-            // Menjalankan model
-            $result = $this->m_opt->insert_opt($nama_opt, $nama_inggris);
-
+            switch ($kategori) {
+                case "penyakit":
+                    $query = $this->db->query("SELECT MAX(kode_opt) as idopt from tb_opt where kode_opt LIKE '%PN%'");
+                    $tabel1 = $query->row();
+                    $no =  substr($tabel1->idopt, 2, 2) + 1;
+                    $kode = "PN" . $no;
+                    $data = [
+                        'kode_opt' => $kode,
+                        'nama_opt' => $nama_opt,
+                        'nama_inggris' => $nama_inggris
+                    ];
+                    $result = $this->m_opt->simpan_opt($data);
+                    break;
+                case "hama":
+                    $query = $this->db->query("SELECT MAX(kode_opt) as idopt from tb_opt where kode_opt LIKE '%HM%'");
+                    $tabel1 = $query->row();
+                    $no =  substr($tabel1->idopt, 2, 2) + 1;
+                    $kode = "HM" . $no;
+                    $data = [
+                        'kode_opt' => $kode,
+                        'nama_opt' => $nama_opt,
+                        'nama_inggris' => $nama_inggris
+                    ];
+                    $result = $this->m_opt->simpan_opt($data);
+                    break;
+                case "hara":
+                    $query = $this->db->query("SELECT MAX(kode_opt) as idopt from tb_opt where kode_opt LIKE '%HR%'");
+                    $tabel1 = $query->row();
+                    $no =  substr($tabel1->idopt, 2, 2) + 1;
+                    $kode = "HR" . $no;
+                    $data = [
+                        'kode_opt' => $kode,
+                        'nama_opt' => $nama_opt,
+                        'nama_inggris' => $nama_inggris
+                    ];
+                    $result = $this->m_opt->simpan_opt($data);
+                    break;
+            }
             // memeriksa apakah query berhasil dijalankan atau tidak
             if ($result == false) {
                 // Jika query gagal dijalankan
@@ -78,7 +122,7 @@ class Opt extends CI_Controller
     {
         // Membuat array
         $data = [
-            'kode_opt' => $this->input->post('kode_opt')
+            'kode_opt' => $this->input->get('id')
         ];
 
         // Mengambil data
@@ -113,7 +157,7 @@ class Opt extends CI_Controller
                 'nama_inggris' => $nama_inggris
             ];
 
-            $kode = 'HM' . $this->input->post('kd_opt_ubah');
+            $kode = $this->input->post('kd_opt_ubah');
             // Menjalankan model
             $result = $this->m_opt->update_opt($kode, $data);
 
@@ -137,7 +181,7 @@ class Opt extends CI_Controller
     public function hapus()
     {
         // Menerima data dari javascript
-        $kode = $this->input->post('kode_opt');
+        $kode = $this->input->post('kode_hapus');
 
         // menjalankan model
         $result = $this->m_opt->delete_opt($kode);
@@ -150,5 +194,6 @@ class Opt extends CI_Controller
             // Jika query berhasil dijalankan
             $this->session->set_flashdata('error_message', ["error_status" => false, "message" => "Data Berhasil Dihapus"]);
         }
+        redirect('opt');
     }
 }

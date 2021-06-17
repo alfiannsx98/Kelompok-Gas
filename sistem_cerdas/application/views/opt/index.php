@@ -106,13 +106,10 @@
                                             <td><?= $det_opt['nama_opt']; ?></td>
                                             <td><?= $det_opt['nama_inggris']; ?></td>
                                             <td class="d-flex justify-content-around">
-                                                <?php
-                                                $enc_kode_obat = substr($det_opt['kode_opt'], 2);
-                                                ?>
-                                                <button class="btn btn-sm btn-warning ubah_opt" data-kode="<?= $enc_kode_obat; ?>" data-toggle="modal" data-target="#ubahModal">
-                                                    <i class="fas fa-fw fa-edit text-white"></i>
+                                                <button class="btn btn-sm btn-warning" id="edit" data-kode="<?= $det_opt['kode_opt']; ?>"">
+                                                    <i class=" fas fa-fw fa-edit text-white"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger hapus_opt" data-kode="<?= $enc_kode_obat; ?>" data-toggle="modal" data-target="#hapusModal">
+                                                <button class="btn btn-sm btn-danger" data-kode="<?= $det_opt['kode_opt']; ?>" id="hapus" data-toggle="modal" data-target="#hapusModal">
                                                     <i class="fas fa-fw fa-trash-alt text-white"></i>
                                                 </button>
                                             </td>
@@ -166,6 +163,20 @@
                         <input type="text" name="nama_inggris" id="nama_inggris" class="form-control" placeholder="Isi Istilah Inggris untuk OPT disini">
                     </div>
                     <!-- Input Group (End) -->
+                    <div class="row">
+                        <div class="form-group col-3">
+                            <input type="radio" name="kategori" id="" value="hama">
+                            <label for="">Hama</label>
+                        </div>
+                        <div class="form-group col-3">
+                            <input type="radio" name="kategori" id="" value="penyakit">
+                            <label for="">Penyakit</label>
+                        </div>
+                        <div class="form-group col-3">
+                            <input type="radio" name="kategori" id="" value="hara">
+                            <label for="">Hara</label>
+                        </div>
+                    </div>
             </div>
             <!-- Modal Body (End) -->
             <!-- Modal Footer (Start) -->
@@ -199,7 +210,7 @@
             <!-- Modal Body (Start) -->
             <div class="modal-body">
                 <form action="<?= base_url('opt/ubah'); ?>" method="post">
-                    <input type="hidden" name="kd_opt_ubah" id="kd_opt_ubah" value="">
+                    <input type="hidden" name="kd_opt_ubah" id="kd_opt_ubah">
                     <!-- Input Group (Start) -->
                     <div class="form-group">
                         <label for="nama_opt">Nama OPT</label>
@@ -244,13 +255,16 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <p>Apakah anda yakin akan menghapus data ini ?</p>
+                <form action="<?= base_url('opt/hapus') ?>" method="post">
+                    <input type="hidden" name="kode_hapus" id="kode_hapus">
+                    <p>Apakah anda yakin akan menghapus data ini ?</p>
             </div>
             <!-- Modal Body (End) -->
             <!-- Modal Footer (Start) -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-primary btn-sm" id="hapus_opt">Hapus</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="hapus_opt">Hapus</button>
+                </form>
             </div>
             <!-- Modal Footer (End) -->
         </div>
@@ -259,3 +273,32 @@
     <!-- Modal Dialog (End) -->
 </div>
 <!-- Modal Hapus (End) -->
+
+<script>
+    $(document).ready(function() {
+        $('#example1 tbody').on('click', '#hapus', function() {
+            // Mengambil data
+            let kode = $(this).data('kode');
+            $('#kode_hapus').val(kode);
+        });
+        $('#example1 tbody ').on('click', '#edit', function() {
+            $('#ubahModal').modal('show');
+            var id = $(this).data('kode');
+            console.log(id);
+            $.ajax({
+                url: "<?= base_url('opt') ?>/retrieve",
+                dataType: "JSON",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    console.log(data);
+                    $('#kd_opt_ubah').val(data['kode_opt']);
+                    $('#nama_opt_ubah').val(data['nama_opt']);
+                    $('#nama_inggris_ubah').val(data['nama_inggris']);
+
+                }
+            });
+        })
+    });
+</script>

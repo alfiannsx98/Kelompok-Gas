@@ -166,4 +166,30 @@ class M_opt extends CI_Model
             return true;
         }
     }
+    public function simpan_opt($data)
+    {
+        $this->db->trans_begin();
+
+        // Menjalankan query
+        $this->db->insert('tb_opt', $data);
+
+        // Memeriksa apakah query berhasil dijalankan atau tidak
+        if ($this->db->trans_status() === false) {
+            // Jika transaksi database gagal dilakukan
+
+            // rollback query yang dilakukan
+            $this->db->trans_rollback();
+
+            // mengembalikan false
+            return false;
+        } else {
+            // Jika transaksi database berhasil dilakukan
+
+            // commit perubahan yang dilakukan oleh query
+            $this->db->trans_commit();
+
+            // mengembalikan true
+            return true;
+        }
+    }
 }
