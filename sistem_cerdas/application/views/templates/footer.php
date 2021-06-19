@@ -20,7 +20,7 @@
 <!-- jQuery -->
 <script src="<?= base_url(); ?>assets/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="<?= base_url(); ?>assets/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button)
@@ -76,6 +76,10 @@
             "info": true,
             "autoWidth": false,
             "responsive": true,
+        });
+        $('#tableOpt').DataTable({
+            "responsive": true,
+            "autoWidth": false
         });
     });
 </script>
@@ -224,6 +228,24 @@
 
     });
 </script>
+
+<!-- JavaScript untuk tabel opt dalam modal -->
+<script>
+    $('#tableOpt tbody').on('click', '.tambah_opt', function() {
+
+        //  mengambil form assign rule
+        var formRule = $('#formAssignRule');
+
+        // Mengisi form
+        formRule.find('#opt_rule').val($(this).data("placeholder"));
+        formRule.find('#kode_opt_rule').val($(this).data("jenis") + $(this).data("kode"));
+
+        //  menutup modal
+        $('#modalOpt').modal('hide');
+
+    });
+</script>
+
 </body>
 
 </html>
