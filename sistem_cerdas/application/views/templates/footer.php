@@ -235,6 +235,44 @@
     });
 </script>
 
+<!-- JavaScript untuk tabel aturan -->
+<script>
+    $('#example1 tbody').on('click', '.info_aturan', function() {
+
+        // mengambil kode opt untuk rule
+        var kodeOpt = $(this).data('jenis') + $(this).data('kode');
+
+        // mengambil modal
+        var modalInfo = $('#infoModal');
+
+        // menjalankan ajax
+        $.ajax({
+            url: "http://localhost/kelompok-gas/sistem_cerdas/rule/retrieve",
+            data: {
+                kode_opt: kodeOpt
+            },
+            method: "post",
+            dataType: "json",
+            success: function(result) {
+                modalInfo.find('#nama_opt').val(result[0].nama_opt);
+                modalInfo.find('#nama_opt_inggris').val(result[0].nama_inggris);
+                for (var i = 0; i < result.length; i++) {
+
+                    // Membuat elemen html
+                    var li = document.createElement("li");
+                    // Mengisi text elemen html
+                    li.innerText = result[i].gejala;
+                    // append elemen html ke parent
+                    $('#list_gejala_opt').append(li);
+                }
+            }
+        });
+
+
+
+    });
+</script>
+
 <!-- JavaScript untuk tabel opt dalam modal -->
 <script>
     $('#tableOpt tbody').on('click', '.tambah_opt', function() {

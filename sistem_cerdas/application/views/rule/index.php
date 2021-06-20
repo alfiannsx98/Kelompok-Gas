@@ -128,13 +128,13 @@
                                                 <?php
                                                 $enc_kode_aturan = substr($det_aturan['kode_opt'], 2);
                                                 ?>
-                                                <button class="btn btn-sm btn-warning ubah_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-toggle="modal" data-target="#ubahModal">
+                                                <button class="btn btn-sm btn-warning ubah_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-jenis="<?= $kode_aturan; ?>" data-toggle="modal" data-target="#ubahModal">
                                                     <i class="fas fa-fw fa-edit text-white"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-danger hapus_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-toggle="modal" data-target="#hapusModal">
+                                                <button class="btn btn-sm btn-danger hapus_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-jenis="<?= $kode_aturan; ?>" data-toggle="modal" data-target="#hapusModal">
                                                     <i class="fas fa-fw fa-trash-alt text-white"></i>
                                                 </button>
-                                                <button class="btn btn-sm btn-info info_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-toggle="modal" data-target="#infoModal">
+                                                <button class="btn btn-sm btn-info info_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-jenis="<?= $kode_aturan; ?>" data-toggle="modal" data-target="#infoModal">
                                                     <i class="fas fa-fw fa-eye text-white"></i>
                                                 </button>
                                             </td>
@@ -410,3 +410,53 @@
     <!-- Modal Dialog (End) -->
 </div>
 <!-- Modal Gejala (End) -->
+
+<!-- Modal Detail Aturan (Start) -->
+<div class="modal fade" id="infoModal">
+    <!-- Modal Dialog (Start) -->
+    <div class="modal-dialog">
+        <!-- Modal Content (Start) -->
+        <div class="modal-content">
+            <!-- Modal Header (Start) -->
+            <div class="modal-header">
+                <h4 class="modal-title">Aturan Organisme Penyerang Tanaman</h4>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal Header (End) -->
+            <!-- Modal Body (Start) -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form id="formDetailAturan">
+                            <!-- Input Group (Start) -->
+                            <div class="form-group">
+                                <label for="nama_opt">Organisme Penyerang Tanaman</label>
+                                <input type="text" name="nama_opt" id="nama_opt" class="form-control" readonly>
+                            </div>
+                            <!-- Input Group (End) -->
+                            <!-- Input Group (Start) -->
+                            <div class="form-group">
+                                <label for="nama_opt_inggris">Organisme Penyerang Tanaman (Bahasa Inggris)</label>
+                                <input type="text" name="nama_opt_inggris" id="nama_opt_inggris" class="form-control" readonly>
+                            </div>
+                            <!-- Input Group (End) -->
+                            <!-- Input Group (Start) -->
+                            <div class="form-group">
+                                <label for="list_gejala_opt">Daftar Gejala</label>
+                                <ul id="list_gejala_opt">
+                                </ul>
+                            </div>
+                            <!-- Input Group (End) -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Body (End) -->
+        </div>
+        <!-- Modal Content (End) -->
+    </div>
+    <!-- Modal Dialog (End) -->
+</div>
+<!-- Modal Detail Aturan (End) -->

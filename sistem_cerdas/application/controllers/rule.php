@@ -89,4 +89,18 @@ class Rule extends CI_Controller
             }
         }
     }
+
+    public function retrieve()
+    {
+        // Membuat array
+        $data = [
+            'tb_rule.kode_opt' => $this->input->post('kode_opt')
+        ];
+
+        // Mengambil data
+        $result = $this->m_rule->get_rule($data);
+
+        // mencetak data dalam bentuk json
+        echo json_encode($result);
+    }
 }

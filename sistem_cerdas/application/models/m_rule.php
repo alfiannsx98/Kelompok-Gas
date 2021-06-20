@@ -53,4 +53,17 @@ class M_rule extends CI_Model
             return true;
         }
     }
+
+    /**
+     * Mengambil aturan berdasarkan kode opt nya
+     */
+    public function get_rule($data)
+    {
+        $this->db->select('*');
+        $this->db->from('tb_rule');
+        $this->db->join("tb_opt", "tb_rule.kode_opt = tb_opt.kode_opt");
+        $this->db->join("tb_gejala", "tb_rule.kode_gejala = tb_gejala.kode_gejala");
+        $this->db->where($data);
+        return $this->db->get()->result_array();
+    }
 }
