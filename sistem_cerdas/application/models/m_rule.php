@@ -19,7 +19,38 @@ class M_rule extends CI_Model
     /**
      * Menambahkan OPT beserta Gejala kedalam tabel
      */
-    public function insert_aturan()
+    public function insert_aturan($kode_opt, $kode_gejala)
     {
+        $data = [
+            'kode_opt' => $kode_opt,
+            'kode_gejala' => $kode_gejala
+        ];
+
+        // Menggunakan db transaction
+
+        // Memulai Transaksi
+        $this->db->trans_begin();
+
+        // Menjalankan query
+        $this->db->insert('tb_rule', $data);
+
+        // Memeriksa apakah query berhasil dijalankan atau tidak
+        if ($this->db->trans_status() === false) {
+            // Jika transaksi database gagal dilakukan
+
+            // rollback query yang dilakukan
+            $this->db->trans_rollback();
+
+            // mengembalikan false
+            return false;
+        } else {
+            // Jika transaksi database berhasil dilakukan
+
+            // commit perubahan yang dilakukan oleh query
+            $this->db->trans_commit();
+
+            // mengembalikan true
+            return true;
+        }
     }
 }

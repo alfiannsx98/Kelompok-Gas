@@ -38,4 +38,55 @@ class Rule extends CI_Controller
         $this->load->view('rule/index');
         $this->load->view('templates/footer');
     }
+
+    public function insert()
+    {
+        // Mengambil input dari user
+        $kode_opt = $this->input->post('kode_opt');
+        $gejala_opt = $this->input->post('gejala_opt');
+
+        // Membuat rules
+        $this->form_validation->set_rules('kode_opt', 'Organisme Penyerang Tanaman', 'required');
+        $this->form_validation->set_rules('gejala_opt[]', 'Gejala Organisme Penyerang Tanaman', 'required');
+
+        //  Membuat pesan error
+        $this->form_validation->set_message('required', 'Kolom {field} tidak boleh kosong.');
+
+        // Menjalankan form validation
+        if ($this->form_validation->run() == false) {
+            // Jika form_validation mengembalikan nilai error
+            $this->index();
+        } else {
+
+            // menjalankan model
+            $count_success_insert = 0;
+            foreach ($gejala_opt as $gejala) {
+                $result = $this->m_rule->insert_aturan($kode_opt, $gejala);
+
+                // memeriksa apakah query berhasil dijalankan atau tidak
+                if ($result == false) {
+                    // Jika query gagal dijalankan
+                    $count_success_insert += 0;
+                } else {
+                    // Jika query berhasil dijalankan
+                    $count_success_insert += 1;
+                }
+            }
+
+            // memeriksa apakah seluruh data berhasil ditambahkan atau tidak
+            if ($count_success_insert == count($gejala_opt)) {
+                // Jika seluruh data berhasil ditambahkan
+                $this->session->set_flashdata('error_message', ['error_status' => false, 'message' => "Seluruh Data Berhasil Ditambahkan"]);
+
+                // Mengembalikan ke halaman index
+                redirect('rule');
+            } else {
+                // Jika ada data yang gagal ditambahkan
+                $this->session->set_flashdata('error_message', ["error_status" => false, "message" => "Ada Data Yang Gagal Ditambahkan"]);
+
+                // Mengembalikan ke halaman index
+                redirect('rule');
+            }
+        }
+    }
 }

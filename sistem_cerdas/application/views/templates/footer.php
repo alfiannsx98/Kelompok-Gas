@@ -27,6 +27,8 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url(); ?>assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="<?= base_url(); ?>assets/plugins/select2/js/select2.full.min.js"></script>
 <!-- ChartJS -->
 <script src="<?= base_url(); ?>assets/plugins/chart.js/Chart.min.js"></script>
 <!-- Sparkline -->
@@ -80,6 +82,10 @@
         $('#tableOpt').DataTable({
             "responsive": true,
             "autoWidth": false
+        });
+        $('#tableGejala').DataTable({
+            "responsive": true,
+            "autoWidth": false,
         });
     });
 </script>
@@ -243,6 +249,35 @@
         //  menutup modal
         $('#modalOpt').modal('hide');
 
+    });
+</script>
+
+<!-- JavaScript untuk penambahan gejala kedalam opt -->
+<script>
+    $('#tableGejala tbody').on('click', '.tambah_gejala', function() {
+
+        // Mengambil form assign rule
+        var formRule = $('#formAssignRule');
+
+        // Membuat elemen html
+        var option = document.createElement("option");
+        var optionValue = $(this).data("jenis") + $(this).data("kode");
+        var optionText = $(this).data("placeholder");
+
+        option.text = optionText;
+        option.value = optionValue;
+        option.setAttribute('selected', true);
+        option.classList.add("remove_gejala");
+
+        formRule.find('#gejala_opt').append(option);
+
+        //  menutup modal
+        $('#modalGejala').modal('hide');
+
+    });
+
+    $('#gejala_opt').select2({
+        dropdownParent: $('#tambahModal .modal-body')
     });
 </script>
 

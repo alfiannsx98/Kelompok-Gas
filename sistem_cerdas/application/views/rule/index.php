@@ -175,7 +175,7 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="" method="post" id="formAssignRule">
+                <form action="<?= base_url('rule/insert'); ?>" method="post" id="formAssignRule">
                     <input type="hidden" name="kode_opt" id="kode_opt_rule">
                     <!-- Input Group (Start) -->
                     <div class="form-group">
@@ -190,9 +190,36 @@
                         </div>
                     </div>
                     <!-- Input Group (End) -->
-                </form>
+                    <!-- Input Group (Start) -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Gejala OPT</label>
+                                <br>
+                                <button type="button" class="btn btn-success btn-md btn_tambah_gejala" data-target="#modalGejala" data-toggle="modal">
+                                    <i class="fas fa-fw fa-plus text-white"></i> Tambah Gejala
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="gejala_opt[]">Daftar Gejala</label>
+                                <br>
+                                <select name="gejala_opt[]" id="gejala_opt" multiple="multiple" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Input Group (End) -->
             </div>
             <!-- Modal Body (End) -->
+            <!-- Modal Footer (Start) -->
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Tambah Aturan</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                </form>
+            </div>
+            <!-- Modal Footer (End) -->
         </div>
         <!-- Modal Content (End) -->
     </div>
@@ -301,3 +328,85 @@
     <!-- Modal Dialog (End) -->
 </div>
 <!-- Modal Opt (End) -->
+
+<!-- Modal Gejala (Start) -->
+<div class="modal fade" id="modalGejala" role="dialog">
+    <!-- Modal Dialog (Start) -->
+    <div class="modal-dialog modal-lg">
+        <!-- Modal Content (Start) -->
+        <div class="modal-content">
+            <!-- Modal Header (Start) -->
+            <div class="modal-header">
+                <h4 class="modal-title">Gejala Organisme Penyerang Tanaman</h4>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal Header (End) -->
+            <!-- Modal Body (Start) -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Card (Start) -->
+                        <div class="card">
+                            <!-- Card Header (Start) -->
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    Tabel Gejala Organisme Penyerang Tanaman
+                                </h4>
+                            </div>
+                            <!-- Card Header (End) -->
+                            <!-- Card Body (Start) -->
+                            <div class="card-body">
+                                <!-- Data Table (Start) -->
+                                <table id="tableGejala" class="table table-bordered table-striped">
+                                    <!-- Thead (Start) -->
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Gejala</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Thead (End) -->
+                                    <!-- Tbody (Start) -->
+                                    <tbody>
+                                        <?php
+                                        $i = 1;
+                                        foreach ($gejala as $det_gejala) :
+                                            $kode_gejala = substr($det_gejala['kode_gejala'], 0, 2);
+                                        ?>
+                                            <tr>
+                                                <td><?= $i; ?></td>
+                                                <td><?= $det_gejala['gejala']; ?></td>
+                                                <td class="d-flex justify-content-around">
+                                                    <?php
+                                                    $enc_kode_gejala = substr($det_gejala['kode_gejala'], 2);
+                                                    ?>
+                                                    <button class="btn btn-sm btn-success tambah_gejala" data-kode="<?= $enc_kode_gejala; ?>" data-placeholder="<?= $det_gejala["gejala"]; ?>" data-jenis="<?= $kode_gejala; ?>">
+                                                        <i class="fas fa-fw fa-plus text-white"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                            $i++;
+                                        endforeach;
+                                        ?>
+                                    </tbody>
+                                    <!-- Tbody (End) -->
+                                </table>
+                                <!-- Data Table (End) -->
+                            </div>
+                            <!-- Card Body (End) -->
+                        </div>
+                        <!-- Card (End) -->
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Body (End) -->
+        </div>
+        <!-- Modal Content (End) -->
+    </div>
+    <!-- Modal Dialog (End) -->
+</div>
+<!-- Modal Gejala (End) -->
