@@ -66,4 +66,38 @@ class M_rule extends CI_Model
         $this->db->where($data);
         return $this->db->get()->result_array();
     }
+
+    /**
+     * Menghapus aturan dalam tabel aturan berdasarkan kode opt
+     */
+    public function delete_rule($kode_opt)
+    {
+        // Menggunakan db transaction
+
+        // Memulai transaksi
+        $this->db->trans_begin();
+
+        // menjalankan query
+        $this->db->where('kode_opt', $kode_opt);
+        $this->db->delete('tb_rule');
+
+        // memeriksa apakah query berhasil dijalankan atau tidak
+        if ($this->db->trans_status() == false) {
+            // Jika transaksi database gagal dilakukan
+
+            // Rollback query yang dilakukan
+            $this->db->trans_rollback();
+
+            // mengembalikan false
+            return false;
+        } else {
+            // Jika transaksi database berhasil dilakukan
+
+            // Commit perubahan yang dilakukan oleh query
+            $this->db->trans_commit();
+
+            // mengembalikan true
+            return true;
+        }
+    }
 }

@@ -103,4 +103,28 @@ class Rule extends CI_Controller
         // mencetak data dalam bentuk json
         echo json_encode($result);
     }
+
+    public function delete()
+    {
+        // Menerima data dari ajax
+        $kode = $this->input->post('kode_opt');
+
+        // Menjalankan model
+        $result = $this->m_rule->delete_rule($kode);
+
+        // memeriksa apakah query berhasil dijalankan atau tidak
+        if ($result == false) {
+            // Jika query gagal dijalankan
+            $this->session->set_flashdata('error_message', ["error_status" => true, "message" => "Data Gagal Dihapus"]);
+
+            // Mengembalikan ke halaman index
+            redirect('rule');
+        } else {
+            // Jika query berhasil dijalankan
+            $this->session->set_flashdata('error_message', ["error_status" => false, "message" => "Data Berhasil Dihapus"]);
+
+            // Mengembalikan ke halaman index
+            redirect('rule');
+        }
+    }
 }

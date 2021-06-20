@@ -460,3 +460,38 @@
     <!-- Modal Dialog (End) -->
 </div>
 <!-- Modal Detail Aturan (End) -->
+
+<!-- Modal Hapus (Start) -->
+<div class="modal fade" id="hapusModal">
+    <!-- Modal Dialog (Start) -->
+    <div class="modal-dialog modal-sm">
+        <!-- Modal Content (Start) -->
+        <div class="modal-content">
+            <!-- Modal Header (Start) -->
+            <div class="modal-header">
+                <h4 class="modal-title">Hapus Aturan</h4>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal Header (End) -->
+            <!-- Modal Body (Start) -->
+            <div class="modal-body">
+                <form action="<?= base_url('rule/delete') ?>" method="post" id="formHapusRule">
+                    <input type="hidden" name="kode_opt" id="kode_opt">
+                    <p>Apakah anda yakin akan menghapus data ini ?</p>
+            </div>
+            <!-- Modal Body (End) -->
+            <!-- Modal Footer (Start) -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary btn-sm" id="hapus_opt">Hapus</button>
+                </form>
+            </div>
+            <!-- Modal Footer (End) -->
+        </div>
+        <!-- Modal Content (End) -->
+    </div>
+    <!-- Modal Dialog (End) -->
+</div>
+<!-- Modal Hapus (End) -->

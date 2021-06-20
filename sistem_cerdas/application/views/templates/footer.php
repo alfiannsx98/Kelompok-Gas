@@ -268,7 +268,15 @@
             }
         });
 
+    });
 
+    $('#example1 tbody').on('click', '.hapus_aturan', function() {
+
+        // Mengambil kode
+        var kodeOpt = $(this).data('jenis') + $(this).data('kode');
+
+        // Memasang kode opt kedalam form
+        $('#formHapusRule').find('#kode_opt').val(kodeOpt);
 
     });
 </script>
