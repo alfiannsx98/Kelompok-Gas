@@ -19,6 +19,33 @@
 
     <!-- Main content -->
     <section class="content">
+        <?php
+        if ($this->session->flashdata('error_message')) :
+        ?>
+            <?php
+            if ($this->session->flashdata('error_message')['error_status'] == true) :
+            ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong><?= $this->session->flashdata('error_message')['message']; ?></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php
+            else :
+            ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong><?= $this->session->flashdata('error_message')['message']; ?></strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php
+            endif;
+            ?>
+        <?php
+        endif;
+        ?>
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -27,7 +54,6 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <?= $this->session->flashdata('message'); ?>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>

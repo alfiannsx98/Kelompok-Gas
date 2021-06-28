@@ -41,8 +41,8 @@ class Users extends CI_Controller
         $this->load->library('upload', $config);
         if (!$this->upload->do_upload('gambar')) {
             $error = array('error' => $this->upload->display_errors());
-            $this->session->set_flashdata('error', 'Gambar Harap Di Upload!!!');
-            redirect(base_url('admin/anggota/'));
+            $this->session->set_flashdata('error_message', ["error_status" => true, "message" => "Foto Harap diisi!!!"]);
+            redirect(base_url('users/'));
         } else {
             $file = $this->upload->data();
             $nama = $this->input->post('nama');
@@ -63,6 +63,7 @@ class Users extends CI_Controller
             ];
             $this->db->insert('user', $data);
             // $this->M_admin->insertdata('anggota', $data);
+            $this->session->set_flashdata('error_message', ["error_status" => false, "message" => "Data Berhasil Disimpan"]);
             redirect(base_url('users/'));
         }
     }
@@ -169,6 +170,7 @@ class Users extends CI_Controller
                 ];
                 $this->db->where('id_user', $kode)->update('user', $data);
                 redirect(base_url('users/'));
+                $this->session->set_flashdata('error_message', ["error_status" => false, "message" => "Data Berhasil Diubah"]);
             }
         }
     }
