@@ -12,6 +12,29 @@ class M_gejala extends CI_Model
         return $this->db->get("tb_gejala")->result_array();
     }
 
+    /**
+     * Melakukan Alter Tabel Untuk tabel keputusan
+     */
+    private function add_gejala_keputusan($kode)
+    {
+        $this->load->dbforge();
+        $column = [
+            $kode => [
+                'type' => 'VARCHAR',
+                'constraint' => 6
+            ]
+        ];
+        $this->dbforge->add_column('tb_keputusan', $column);
+    }
+
+    /**
+     * Melakukan Alter Tabel Untuk tabel keputusan
+     */
+    private function remove_gejala_keputusan($kode)
+    {
+        $this->load->dbforge();
+        $this->dbforge->drop_column('tb_keputusan', $kode);
+    }
 
     /**
      * Mengambil id terakhir dari gejala dalam table gejala
@@ -26,7 +49,7 @@ class M_gejala extends CI_Model
     /**
      * Membuat penambahan terhadap id terakhir yang diambil dari table gejala
      */
-    public function generate_kode_gejala()
+    private function generate_kode_gejala()
     {
 
         $kode = $this->get_last_kode_gejala()['kode_gejala'];
@@ -84,6 +107,9 @@ class M_gejala extends CI_Model
 
             // commit perubahan yang dilakukan oleh query
             $this->db->trans_commit();
+
+            // Melakukan alter tabel di tabel keputusan
+            $this->add_gejala_keputusan($data['kode_gejala']);
 
             // mengembalikan true
             return true;
@@ -160,6 +186,9 @@ class M_gejala extends CI_Model
 
             // Commit perubahan yang dilakukan oleh query
             $this->db->trans_commit();
+
+            // Melakukan alter table
+            $this->remove_gejala_keputusan($kode);
 
             // mengembalikan true
             return true;
