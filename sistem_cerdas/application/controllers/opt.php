@@ -18,7 +18,7 @@ class Opt extends CI_Controller
 
         // Preparasi halaman
         $data['title'] = 'Organisme Pengganggu Tanaman';
-        $data['title1'] = 'Data User Aktif';
+        $data['title1'] = 'Data Organisme Pengganggu Tanaman';
         $data['user'] = $this->db->get_where('user', [
             'email' =>
             $this->session->userdata('email')

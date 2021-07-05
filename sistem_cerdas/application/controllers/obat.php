@@ -18,7 +18,7 @@ class Obat extends CI_Controller
 
         // Preparasi halaman
         $data['title'] = 'Obat Tanaman';
-        $data['title1'] = 'Data User Aktif';
+        $data['title1'] = 'Daftar Obat Tanaman';
         $data['user'] = $this->db->get_where('user', [
             'email' =>
             $this->session->userdata('email')
