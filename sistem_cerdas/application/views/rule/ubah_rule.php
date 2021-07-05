@@ -11,6 +11,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="">Home</a></li>
                         <li class="breadcrumb-item">Tabel Aturan</li>
+                        <li class="breadcrumb-item"><?= $opt[0]['nama_opt']; ?></li>
                     </ol>
                 </div>
             </div>
@@ -89,9 +90,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Nama OPT</th>
-                                        <th>Nama Inggris OPT</th>
-                                        <th>Jenis OPT</th>
+                                        <th>Nama Gejala</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -100,47 +99,21 @@
                                 <tbody>
                                     <?php
                                     $i = 1;
-                                    foreach ($aturan as $det_aturan) :
+                                    foreach ($gejala as $det_gejala) :
+                                        foreach ($det_gejala as $det_inti_gejala) :
                                     ?>
-                                        <tr>
-                                            <td><?= $i; ?></td>
-                                            <td><?= $det_aturan['nama_opt']; ?></td>
-                                            <td><?= $det_aturan['nama_inggris']; ?></td>
-                                            <td>
-                                                <?php
-                                                $kode_aturan = substr($det_aturan['kode_opt'], 0, 2);
-                                                switch ($kode_aturan) {
-                                                    case "HM":
-                                                        echo "Hama";
-                                                        break;
-
-                                                    case "PN":
-                                                        echo "Penyakit";
-                                                        break;
-
-                                                    case "HR":
-                                                        echo "Hara";
-                                                        break;
-                                                }
-                                                ?>
-                                            </td>
-                                            <td class="d-flex justify-content-around">
-                                                <?php
-                                                $enc_kode_aturan = substr($det_aturan['kode_opt'], 2);
-                                                ?>
-                                                <a class="btn btn-sm btn-warning ubah_aturan" href="<?= base_url('siscer/ubah_rule/') . $enc_kode_aturan . '/' . $kode_aturan; ?>">
-                                                    <i class="fas fa-fw fa-edit text-white"></i>
-                                                </a>
-                                                <button class="btn btn-sm btn-danger hapus_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-jenis="<?= $kode_aturan; ?>" data-toggle="modal" data-target="#hapusModal">
-                                                    <i class="fas fa-fw fa-trash-alt text-white"></i>
-                                                </button>
-                                                <button class="btn btn-sm btn-info info_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-jenis="<?= $kode_aturan; ?>" data-toggle="modal" data-target="#infoModal">
-                                                    <i class="fas fa-fw fa-eye text-white"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                            <tr>
+                                                <td><?= $i; ?></td>
+                                                <td><?= $det_inti_gejala['gejala']; ?></td>
+                                                <td class="d-flex justify-content-around">
+                                                    <button class="btn btn-sm btn-danger hapus_aturan_keputusan" data-jenis="<?= substr($det_inti_gejala['kode_gejala'], 0, 2); ?>" data-kode="<?= substr($det_inti_gejala['kode_gejala'], 2); ?>" data-toggle="modal" data-target="#hapusModal">
+                                                        <i class="fas fa-fw fa-trash-alt text-white"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
                                     <?php
-                                        $i++;
+                                            $i++;
+                                        endforeach;
                                     endforeach;
                                     ?>
                                 </tbody>
@@ -175,21 +148,8 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('siscer/insert_rule'); ?>" method="post" id="formAssignRule">
-                    <input type="hidden" name="kode_opt" id="kode_opt_rule">
-                    <!-- Input Group (Start) -->
-                    <div class="form-group">
-                        <label for="nama_opt">Nama OPT</label>
-                        <div class="input-group">
-                            <input type="text" class="text form-control" name="nama_opt" id="opt_rule" readonly>
-                            <span class="input-group-append">
-                                <button type="button" class="btn btn-info btn-sm" data-target="#modalOpt" data-toggle="modal">
-                                    <i class="fas fa-fw fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                    <!-- Input Group (End) -->
+                <form action="<?= base_url('siscer/insert_rule_opt'); ?>" method="post" id="formAssignRule">
+                    <input type="hidden" name="kode_opt" id="kode_opt_rule" value="<?= $opt[0]['kode_opt']; ?>">
                     <!-- Input Group (Start) -->
                     <div class="row">
                         <div class="col-12">
@@ -226,108 +186,6 @@
     <!-- Modal Dialog (End) -->
 </div>
 <!-- Modal Tambah Aturan (End) -->
-
-<!-- Modal Opt (Start) -->
-<div class="modal fade" id="modalOpt" role="dialog">
-    <!-- Modal Dialog (Start) -->
-    <div class="modal-dialog modal-lg">
-        <!-- Modal Content (Start) -->
-        <div class="modal-content">
-            <!-- Modal Header (Start) -->
-            <div class="modal-header">
-                <h4 class="modal-title">Organisme Penyerang Tanaman</h4>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <!-- Modal Header (End) -->
-            <!-- Modal Body (Start) -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <!-- Card (Start) -->
-                        <div class="card">
-                            <!-- Card Header (Start) -->
-                            <div class="card-header">
-                                <h4 class="card-title">
-                                    Tabel Organisme Penyerang Tanaman
-                                </h4>
-                            </div>
-                            <!-- Card Header (End) -->
-                            <!-- Card Body (Start) -->
-                            <div class="card-body">
-                                <!-- Data Table (Start) -->
-                                <table id="tableOpt" class="table table-bordered table-striped">
-                                    <!-- Thead (Start) -->
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Nama OPT</th>
-                                            <th>Nama Inggris OPT</th>
-                                            <th>Jenis OPT</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- Thead (End) -->
-                                    <!-- Tbody (Start) -->
-                                    <tbody>
-                                        <?php
-                                        $i = 1;
-                                        foreach ($opt as $det_opt) :
-                                        ?>
-                                            <tr>
-                                                <td><?= $i; ?></td>
-                                                <td><?= $det_opt['nama_opt']; ?></td>
-                                                <td><?= $det_opt['nama_inggris']; ?></td>
-                                                <td>
-                                                    <?php
-                                                    $kode_opt = substr($det_opt['kode_opt'], 0, 2);
-                                                    switch ($kode_opt) {
-                                                        case "HM":
-                                                            echo "Hama";
-                                                            break;
-
-                                                        case "PN":
-                                                            echo "Penyakit";
-                                                            break;
-
-                                                        case "HR":
-                                                            echo "Hara";
-                                                            break;
-                                                    }
-                                                    ?>
-                                                </td>
-                                                <td class="d-flex justify-content-around">
-                                                    <?php
-                                                    $enc_kode_opt = substr($det_opt['kode_opt'], 2);
-                                                    ?>
-                                                    <button class="btn btn-sm btn-success tambah_opt" data-kode="<?= $enc_kode_opt; ?>" data-placeholder="<?= $det_opt["nama_opt"]; ?>" data-jenis="<?= $kode_opt; ?>">
-                                                        <i class="fas fa-fw fa-plus text-white"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                            $i++;
-                                        endforeach;
-                                        ?>
-                                    </tbody>
-                                    <!-- Tbody (End) -->
-                                </table>
-                                <!-- Data Table (End) -->
-                            </div>
-                            <!-- Card Body (End) -->
-                        </div>
-                        <!-- Card (End) -->
-                    </div>
-                </div>
-            </div>
-            <!-- Modal Body (End) -->
-        </div>
-        <!-- Modal Content (End) -->
-    </div>
-    <!-- Modal Dialog (End) -->
-</div>
-<!-- Modal Opt (End) -->
 
 <!-- Modal Gejala (Start) -->
 <div class="modal fade" id="modalGejala" role="dialog">
@@ -373,7 +231,7 @@
                                     <tbody>
                                         <?php
                                         $i = 1;
-                                        foreach ($gejala as $det_gejala) :
+                                        foreach ($gejala_tabel as $det_gejala) :
                                             $kode_gejala = substr($det_gejala['kode_gejala'], 0, 2);
                                         ?>
                                             <tr>
@@ -411,55 +269,6 @@
 </div>
 <!-- Modal Gejala (End) -->
 
-<!-- Modal Detail Aturan (Start) -->
-<div class="modal fade" id="infoModal">
-    <!-- Modal Dialog (Start) -->
-    <div class="modal-dialog">
-        <!-- Modal Content (Start) -->
-        <div class="modal-content">
-            <!-- Modal Header (Start) -->
-            <div class="modal-header">
-                <h4 class="modal-title">Aturan Organisme Penyerang Tanaman</h4>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <!-- Modal Header (End) -->
-            <!-- Modal Body (Start) -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <form id="formDetailAturan">
-                            <!-- Input Group (Start) -->
-                            <div class="form-group">
-                                <label for="nama_opt">Organisme Penyerang Tanaman</label>
-                                <input type="text" name="nama_opt" id="nama_opt" class="form-control" readonly>
-                            </div>
-                            <!-- Input Group (End) -->
-                            <!-- Input Group (Start) -->
-                            <div class="form-group">
-                                <label for="nama_opt_inggris">Organisme Penyerang Tanaman (Bahasa Inggris)</label>
-                                <input type="text" name="nama_opt_inggris" id="nama_opt_inggris" class="form-control" readonly>
-                            </div>
-                            <!-- Input Group (End) -->
-                            <!-- Input Group (Start) -->
-                            <div class="form-group">
-                                <label for="list_gejala_opt">Daftar Gejala</label>
-                                <ul id="list_gejala_opt">
-                                </ul>
-                            </div>
-                            <!-- Input Group (End) -->
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Modal Body (End) -->
-        </div>
-        <!-- Modal Content (End) -->
-    </div>
-    <!-- Modal Dialog (End) -->
-</div>
-<!-- Modal Detail Aturan (End) -->
 
 <!-- Modal Hapus (Start) -->
 <div class="modal fade" id="hapusModal">
@@ -477,8 +286,9 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('siscer/delete_rule') ?>" method="post" id="formHapusRule">
-                    <input type="hidden" name="kode_opt" id="kode_opt">
+                <form action="<?= base_url('siscer/delete_rule_opt') ?>" method="post" id="formHapusRule">
+                    <input type="hidden" name="kode_opt" id="kode_opt" value="<?= $opt[0]['kode_opt']; ?>">
+                    <input type="hidden" name="kode_gejala" id="kode_gejala">
                     <p>Apakah anda yakin akan menghapus data ini ?</p>
             </div>
             <!-- Modal Body (End) -->

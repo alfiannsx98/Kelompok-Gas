@@ -279,6 +279,16 @@
         $('#formHapusRule').find('#kode_opt').val(kodeOpt);
 
     });
+
+    $('#example1 tbody').on('click', '.hapus_aturan_keputusan', function() {
+
+        // Mengambil kode
+        var kodeOpt = $(this).data('jenis') + $(this).data('kode');
+
+        // Memasang kode opt kedalam form
+        $('#formHapusRule').find('#kode_gejala').val(kodeOpt);
+
+    });
 </script>
 
 <!-- JavaScript untuk tabel opt dalam modal -->

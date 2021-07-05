@@ -106,7 +106,7 @@ class M_rule extends CI_Model
      */
     public function get_gejala_rule($kode)
     {
-        $this->db->select('gejala');
+        $this->db->select('*');
         return $this->db->get_where('tb_gejala', ['kode_gejala' => $kode])->result_array();
     }
 

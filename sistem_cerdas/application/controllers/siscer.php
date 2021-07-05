@@ -310,8 +310,117 @@ class Siscer extends CI_Controller
         echo json_encode($final_result);
     }
 
-    public function ubah_rule()
+    public function ubah_rule($kode, $enc)
     {
-        // Load Halaman Untuk Ubah Rule
+        // Preparasi halaman
+        $data['title'] = 'Tabel Aturan';
+        $data['title1'] = 'Data User Aktif';
+        $data['user'] = $this->db->get_where('user', [
+            'email' =>
+            $this->session->userdata('email')
+        ])->row_array();
+        $data['jml_aktif'] = $this->m_dashboard->select_by_user();
+        $data['aktif'] = $this->m_dashboard->select_by_role();
+        $data['opt'] = $this->m_rule->get_rule(['tb_keputusan.kode_opt' => $enc . $kode]);
+
+        // Mencari value yang memiliki nilai 1 dan disimpan kedalam array rule baru
+        $data['gejala'] = [];
+        for ($i = 0; $i < sizeof($data['opt']); $i++) {
+            $key = array_keys($data['opt'][$i]);
+            $val = $data['opt'][$i];
+            $sub_rule = [];
+
+            for ($j = 2; $j < sizeof($key); $j++) {
+                if ($val[$key[$j]] == 1) {
+                    $data['gejala'][] = $this->m_rule->get_gejala_rule($key[$j]);
+                }
+            }
+        }
+        $data['gejala_tabel'] = $this->m_gejala->get_all_gejala();
+
+
+        // Load View
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar');
+        $this->load->view('templates/topbar');
+        $this->load->view('rule/ubah_rule');
+        $this->load->view('templates/footer');
+    }
+
+    public function insert_rule_opt()
+    {
+        // Mengambil input dari user
+        $kode_opt = $this->input->post('kode_opt');
+        $gejala_opt = $this->input->post('gejala_opt');
+
+        // Membuat rules
+        $this->form_validation->set_rules('gejala_opt[]', 'Gejala Organisme Penyerang Tanaman', 'required');
+
+        //  Membuat pesan error
+        $this->form_validation->set_message('required', 'Kolom {field} tidak boleh kosong.');
+
+        // Menjalankan form validation
+        if ($this->form_validation->run() == false) {
+            // Jika form_validation mengembalikan nilai error
+            $this->ubah_rule(substr($kode_opt, 2), substr($kode_opt, 0, 2));
+        } else {
+
+            // Jika opt tersebut memiliki rule
+            // Membuat array untuk dikirim kedalam model
+            $data_gejala = [];
+
+            foreach ($gejala_opt as $gejala) {
+                $data_gejala[$gejala] = 1;
+            }
+
+            // Melakukan perubahan rule 
+            $result = $this->m_rule->update_aturan($kode_opt, $data_gejala);
+
+            // Memeriksa apakah data berhasil diubah atau tidak
+            if ($result) {
+                // Jika seluruh data berhasil diubah
+                $this->session->set_flashdata('error_message', ['error_status' => false, 'message' => "Data berhasil diubah"]);
+
+                // Mengembalikan ke halaman index
+                redirect('siscer/ubah_rule/' . substr($kode_opt, 2) . '/' . substr($kode_opt, 0, 2));
+            } else {
+                // Jika seluruh data gagal diubah
+                $this->session->set_flashdata('error_message', ['error_status' => true, 'message' => "Data gagal diubah"]);
+
+                // Mengembalikan ke halaman index
+                redirect('siscer/ubah_rule/' . substr($kode_opt, 2) . '/' . substr($kode_opt, 0, 2));
+            }
+        }
+    }
+
+    public function delete_rule_opt()
+    {
+        // Mengambil input dari user
+        $kode_opt = $this->input->post('kode_opt');
+        $gejala_opt = $this->input->post('kode_gejala');
+
+        // Jika opt tersebut memiliki rule
+        // Membuat array untuk dikirim kedalam model
+        $data_gejala = [
+            $gejala_opt => 0
+        ];
+
+        // Melakukan perubahan rule 
+        $result = $this->m_rule->update_aturan($kode_opt, $data_gejala);
+
+        // Memeriksa apakah data berhasil diubah atau tidak
+        if ($result) {
+            // Jika seluruh data berhasil diubah
+            $this->session->set_flashdata('error_message', ['error_status' => false, 'message' => "Data berhasil dihapus"]);
+
+            // Mengembalikan ke halaman index
+            redirect('siscer/ubah_rule/' . substr($kode_opt, 2) . '/' . substr($kode_opt, 0, 2));
+        } else {
+            // Jika seluruh data gagal diubah
+            $this->session->set_flashdata('error_message', ['error_status' => true, 'message' => "Data gagal dihapus"]);
+
+            // Mengembalikan ke halaman index
+            redirect('siscer/ubah_rule/' . substr($kode_opt, 2) . '/' . substr($kode_opt, 0, 2));
+        }
     }
 }
