@@ -175,7 +175,7 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('rule/insert'); ?>" method="post" id="formAssignRule">
+                <form action="<?= base_url('siscer/insert_rule'); ?>" method="post" id="formAssignRule">
                     <input type="hidden" name="kode_opt" id="kode_opt_rule">
                     <!-- Input Group (Start) -->
                     <div class="form-group">
@@ -477,7 +477,7 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('rule/delete') ?>" method="post" id="formHapusRule">
+                <form action="<?= base_url('siscer/delete_rule') ?>" method="post" id="formHapusRule">
                     <input type="hidden" name="kode_opt" id="kode_opt">
                     <p>Apakah anda yakin akan menghapus data ini ?</p>
             </div>

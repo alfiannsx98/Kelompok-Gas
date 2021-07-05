@@ -9,36 +9,37 @@ class M_rule extends CI_Model
     public function get_all_aturan()
     {
         $this->db->select("*");
-        $this->db->from("tb_rule");
-        $this->db->join("tb_opt", "tb_rule.kode_opt = tb_opt.kode_opt");
-        $this->db->join("tb_gejala", "tb_rule.kode_gejala = tb_gejala.kode_gejala");
-        $this->db->group_by("tb_rule.kode_opt");
+        $this->db->from("tb_keputusan");
+        $this->db->join("tb_opt", "tb_keputusan.kode_opt = tb_opt.kode_opt");
+        $this->db->group_by("tb_keputusan.kode_opt");
         return $this->db->get()->result_array();
+    }
+
+
+    /**
+     * Mengambil rule berdasarkan kode opt
+     */
+    public function check_opt($kode_opt)
+    {
+        return $this->db->get_where('tb_keputusan', ['kode_opt' => $kode_opt])->num_rows();
     }
 
     /**
      * Menambahkan OPT beserta Gejala kedalam tabel
      */
-    public function insert_aturan($kode_opt, $kode_gejala)
+    public function insert_aturan($aturan)
     {
-        $data = [
-            'kode_opt' => $kode_opt,
-            'kode_gejala' => $kode_gejala
-        ];
-
         // Menggunakan db transaction
-
-        // Memulai Transaksi
         $this->db->trans_begin();
 
         // Menjalankan query
-        $this->db->insert('tb_rule', $data);
+        $this->db->insert('tb_keputusan', $aturan);
 
         // Memeriksa apakah query berhasil dijalankan atau tidak
-        if ($this->db->trans_status() === false) {
+        if ($this->db->trans_status() == false) {
             // Jika transaksi database gagal dilakukan
 
-            // rollback query yang dilakukan
+            // Rollback query yang dilakukan
             $this->db->trans_rollback();
 
             // mengembalikan false
@@ -46,7 +47,41 @@ class M_rule extends CI_Model
         } else {
             // Jika transaksi database berhasil dilakukan
 
-            // commit perubahan yang dilakukan oleh query
+            // Commit perubahan yang dilakukan oleh query
+            $this->db->trans_commit();
+
+            // mengembalikan true
+            return true;
+        }
+    }
+
+
+    /**
+     * Mengubah OPT berserta gejala dalam tabel
+     */
+    public function update_aturan($kode_opt, $kode_gejala)
+    {
+
+        // Menggunakan db transcation
+        $this->db->trans_begin();
+
+        // Menjalankan query
+        $this->db->where('kode_opt', $kode_opt);
+        $this->db->update('tb_keputusan', $kode_gejala);
+
+        // Memeriksa apakah query berhasil dijalankan atau tidak
+        if ($this->db->trans_status() == false) {
+            // Jika transaksi database gagal dilakukan
+
+            // Rollback query yang dilakukan
+            $this->db->trans_rollback();
+
+            // mengembalikan false
+            return false;
+        } else {
+            // Jika transaksi database berhasil dilakukan
+
+            // Commit perubahan yang dilakukan oleh query
             $this->db->trans_commit();
 
             // mengembalikan true
@@ -60,11 +95,19 @@ class M_rule extends CI_Model
     public function get_rule($data)
     {
         $this->db->select('*');
-        $this->db->from('tb_rule');
-        $this->db->join("tb_opt", "tb_rule.kode_opt = tb_opt.kode_opt");
-        $this->db->join("tb_gejala", "tb_rule.kode_gejala = tb_gejala.kode_gejala");
+        $this->db->from('tb_keputusan');
+        $this->db->join("tb_opt", "tb_keputusan.kode_opt = tb_opt.kode_opt");
         $this->db->where($data);
         return $this->db->get()->result_array();
+    }
+
+    /**
+     * Mengambil gejala dari tabel gejala berdasarkan rule dan kode opt
+     */
+    public function get_gejala_rule($kode)
+    {
+        $this->db->select('gejala');
+        return $this->db->get_where('tb_gejala', ['kode_gejala' => $kode])->result_array();
     }
 
     /**
@@ -79,7 +122,7 @@ class M_rule extends CI_Model
 
         // menjalankan query
         $this->db->where('kode_opt', $kode_opt);
-        $this->db->delete('tb_rule');
+        $this->db->delete('tb_keputusan');
 
         // memeriksa apakah query berhasil dijalankan atau tidak
         if ($this->db->trans_status() == false) {

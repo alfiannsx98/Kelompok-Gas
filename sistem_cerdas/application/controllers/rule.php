@@ -94,7 +94,7 @@ class Rule extends CI_Controller
     {
         // Membuat array
         $data = [
-            'tb_rule.kode_opt' => $this->input->post('kode_opt')
+            'tb_keputusan.kode_opt' => $this->input->post('kode_opt')
         ];
 
         // Mengambil data

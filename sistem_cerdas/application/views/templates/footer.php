@@ -247,21 +247,21 @@
 
         // menjalankan ajax
         $.ajax({
-            url: "http://localhost/kelompok-gas/sistem_cerdas/rule/retrieve",
+            url: "http://localhost/kelompok-gas/sistem_cerdas/siscer/retrieve_rule",
             data: {
                 kode_opt: kodeOpt
             },
             method: "post",
             dataType: "json",
             success: function(result) {
-                modalInfo.find('#nama_opt').val(result[0].nama_opt);
-                modalInfo.find('#nama_opt_inggris').val(result[0].nama_inggris);
-                for (var i = 0; i < result.length; i++) {
-
+                modalInfo.find('#nama_opt').val(result.nama_opt);
+                modalInfo.find('#nama_opt_inggris').val(result.nama_inggris);
+                $('#list_gejala_opt').empty();
+                for (var i = 0; i < result.gejala.length; i++) {
                     // Membuat elemen html
                     var li = document.createElement("li");
                     // Mengisi text elemen html
-                    li.innerText = result[i].gejala;
+                    li.innerText = result.gejala[i];
                     // append elemen html ke parent
                     $('#list_gejala_opt').append(li);
                 }
