@@ -15,6 +15,7 @@ class Siscer extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('m_opt');
         $this->load->model('m_rule');
+        $this->load->model('m_obat');
     }
 
     public function index()
@@ -421,6 +422,78 @@ class Siscer extends CI_Controller
 
             // Mengembalikan ke halaman index
             redirect('siscer/ubah_rule/' . substr($kode_opt, 2) . '/' . substr($kode_opt, 0, 2));
+        }
+    }
+
+
+    public function assign_obat()
+    {
+        // Preparasi halaman
+        $data['title'] = 'Daftar Obat Penyakit';
+        $data['title1'] = 'Data User Aktif';
+        $data['user'] = $this->db->get_where('user', [
+            'email' =>
+            $this->session->userdata('email')
+        ])->row_array();
+        $data['obat_penyakit'] = $this->m_siscer->get_all_obat_penyakit();
+        $data['opt'] = $this->m_opt->get_all_opt();
+        $data['obat'] = $this->m_obat->get_all_obat();
+
+        // Load View
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar');
+        $this->load->view('templates/topbar');
+        $this->load->view('assign_obat/index');
+        $this->load->view('templates/footer');
+    }
+
+    public function insert_assign_obat()
+    {
+        // Mengambil input dari user
+        $kode_opt = $this->input->post('kode_opt');
+        $obat_opt = $this->input->post('obat_opt');
+
+        // Membuat rules
+        $this->form_validation->set_rules('kode_opt', 'Organisme Penyerang Tanaman', 'required');
+        $this->form_validation->set_rules('obat_opt[]', 'Obat Organisme Penyerang Tanaman', 'required');
+
+        //  Membuat pesan error
+        $this->form_validation->set_message('required', 'Kolom {field} tidak boleh kosong.');
+
+        // Menjalankan form validation
+        if ($this->form_validation->run() == false) {
+            // Jika form_validation mengembalikan nilai error
+            $this->rule();
+        } else {
+            // menjalankan model
+            $count_success_insert = 0;
+            foreach ($obat_opt as $obat) {
+                $result = $this->m_siscer->assign_obat($kode_opt, $obat);
+
+                // memeriksa apakah query berhasil dijalankan atau tidak
+                if ($result == false) {
+                    // Jika query gagal dijalankan
+                    $count_success_insert += 0;
+                } else {
+                    // Jika query berhasil dijalankan
+                    $count_success_insert += 1;
+                }
+            }
+
+            // memeriksa apakah seluruh data berhasil ditambahkan atau tidak
+            if ($count_success_insert == count($obat_opt)) {
+                // Jika seluruh data berhasil ditambahkan
+                $this->session->set_flashdata('error_message', ['error_status' => false, 'message' => "Seluruh Data Berhasil Ditambahkan"]);
+
+                // Mengembalikan ke halaman index
+                redirect('siscer/assign_obat');
+            } else {
+                // Jika ada data yang gagal ditambahkan
+                $this->session->set_flashdata('error_message', ["error_status" => false, "message" => "Ada Data Yang Gagal Ditambahkan"]);
+
+                // Mengembalikan ke halaman index
+                redirect('siscer/assign_obat');
+            }
         }
     }
 }

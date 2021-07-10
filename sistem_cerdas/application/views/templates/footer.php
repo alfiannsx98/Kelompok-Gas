@@ -337,6 +337,35 @@
     });
 </script>
 
+<!-- JavaScript untuk penambahan obat kedalam opt -->
+<script>
+    $('#obat_opt').select2({
+        dropdownParent: $('#tambahModal .modal-body')
+    });
+
+    $('#tableObat tbody').on('click', '.tambah_obat', function() {
+
+        // Mengambil form assign rule
+        var formRule = $('#formAssignRule');
+
+        // Membuat elemen html
+        var option = document.createElement("option");
+        var optionValue = $(this).data("jenis") + $(this).data("kode");
+        var optionText = $(this).data("placeholder");
+
+        option.text = optionText;
+        option.value = optionValue;
+        option.setAttribute('selected', true);
+        option.classList.add("remove_obat");
+
+        formRule.find('#obat_opt').append(option);
+
+        //  menutup modal
+        $('#modalObat').modal('hide');
+
+    });
+</script>
+
 </body>
 
 </html>
