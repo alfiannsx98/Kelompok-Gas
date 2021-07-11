@@ -364,6 +364,16 @@
         $('#modalObat').modal('hide');
 
     });
+
+    $('#example1 tbody').on('click', '.hapus_assign_obat', function() {
+
+        // Mengambil kode
+        var kodeOpt = $(this).data('jenis') + $(this).data('kode');
+
+        // Memasang kode opt kedalam form
+        $('#formHapusAssignObat').find('#kode_obat').val(kodeOpt);
+
+    });
 </script>
 
 </body>
