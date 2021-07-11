@@ -38,7 +38,7 @@ class Siscer extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    private function _hasil_proses($array)
+    private function _hasil_proses($array_opt, $kode_opt)
     {
         // Preparasi halaman
         $data['title'] = 'Sistem Cerdas';
@@ -47,7 +47,8 @@ class Siscer extends CI_Controller
             'email' =>
             $this->session->userdata('email')
         ])->row_array();
-        $data['hasil_proses'] = $array;
+        $data['hasil_proses'] = $array_opt;
+        $data['daftar_obat'] = $this->m_siscer->get_all_obat_by_penyakit($kode_opt);
 
         // Load View
         $this->load->view('templates/header', $data);
@@ -113,7 +114,7 @@ class Siscer extends CI_Controller
 
                     $result_get_opt = $this->m_opt->get_opt($kode_opt);
 
-                    $this->_hasil_proses($result_get_opt);
+                    $this->_hasil_proses($result_get_opt, $result_opt[0]['kode_opt']);
                 } else {
                     $kode_opt = [
                         'kode_opt' => 'HM00'
@@ -121,7 +122,7 @@ class Siscer extends CI_Controller
 
                     $result_get_opt = $this->m_opt->get_opt($kode_opt);
 
-                    $this->_hasil_proses($result_get_opt);
+                    $this->_hasil_proses($result_get_opt, $result_opt[0]['kode_opt']);
                 }
             }
         } else {
