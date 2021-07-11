@@ -122,7 +122,7 @@ class Siscer extends CI_Controller
 
                     $result_get_opt = $this->m_opt->get_opt($kode_opt);
 
-                    $this->_hasil_proses($result_get_opt, $result_opt[0]['kode_opt']);
+                    $this->_hasil_proses($result_get_opt, 'HM00');
                 }
             }
         } else {
@@ -330,7 +330,6 @@ class Siscer extends CI_Controller
         for ($i = 0; $i < sizeof($data['opt']); $i++) {
             $key = array_keys($data['opt'][$i]);
             $val = $data['opt'][$i];
-            $sub_rule = [];
 
             for ($j = 2; $j < sizeof($key); $j++) {
                 if ($val[$key[$j]] == 1) {
