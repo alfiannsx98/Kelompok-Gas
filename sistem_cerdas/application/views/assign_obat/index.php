@@ -1,6 +1,6 @@
-<!-- Content Wrapper Start -->
+<!-- Content Wrapper -->
 <div class="content-wrapper">
-    <!-- Content Header Start -->
+    <!-- Content Header -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -10,14 +10,14 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="">Home</a></li>
-                        <li class="breadcrumb-item">Tabel Aturan</li>
+                        <li class="breadcrumb-item">Tabel Obat Penyakit</li>
                     </ol>
                 </div>
             </div>
             <div class="row mb-2">
                 <div class="col-12">
                     <button class="btn-sm btn-success p-2" data-target="#tambahModal" data-toggle="modal">
-                        <i class="fas fa-fw fa-sm fa-plus"></i> Tambah Aturan
+                        <i class="fas fa-fw fa-sm fa-plus"></i> Tambah Penyakit
                     </button>
                 </div>
             </div>
@@ -68,47 +68,45 @@
             </div>
         </div>
     </div>
-    <!-- Content Header End -->
-    <!-- Main Content (Start) -->
+    <!-- Content Header (End) -->
+    <!-- Main Content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <!-- Card (Start) -->
+                    <!-- Card -->
                     <div class="card">
-                        <!-- Card Header (Start) -->
+                        <!-- Card Header -->
                         <div class="card-header">
-                            <h2 class="card-title">Tabel Aturan</h2>
+                            <h2 class="card-title">Tabel Obat Penyakit</h2>
                         </div>
                         <!-- Card Header (End) -->
-                        <!-- Card Body (Start) -->
+                        <!-- Card Body -->
                         <div class="card-body">
-                            <!-- Data Table (Start) -->
+                            <!-- Data Table -->
                             <table id="example1" class="table table-bordered table-striped">
-                                <!-- Thead (Start) -->
+                                <!-- Thead -->
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Nama OPT</th>
-                                        <th>Nama Inggris OPT</th>
-                                        <th>Jenis OPT</th>
+                                        <th>Nama Penyakit</th>
+                                        <th>Jenis Penyakit</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <!-- Thead (End) -->
-                                <!-- Tbody (Start) -->
+                                <!-- Tbody -->
                                 <tbody>
                                     <?php
                                     $i = 1;
-                                    foreach ($aturan as $det_aturan) :
+                                    foreach ($obat_penyakit as $detPenyakit) :
                                     ?>
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><?= $det_aturan['nama_opt']; ?></td>
-                                            <td><?= $det_aturan['nama_inggris']; ?></td>
+                                            <td><?= $detPenyakit['nama_opt']; ?></td>
                                             <td>
                                                 <?php
-                                                $kode_aturan = substr($det_aturan['kode_opt'], 0, 2);
+                                                $kode_aturan = substr($detPenyakit['kode_opt'], 0, 2);
                                                 switch ($kode_aturan) {
                                                     case "HM":
                                                         echo "Hama";
@@ -126,9 +124,9 @@
                                             </td>
                                             <td class="d-flex justify-content-around">
                                                 <?php
-                                                $enc_kode_aturan = substr($det_aturan['kode_opt'], 2);
+                                                $enc_kode_aturan = substr($detPenyakit['kode_opt'], 2);
                                                 ?>
-                                                <a class="btn btn-sm btn-warning ubah_aturan" href="<?= base_url('siscer/ubah_rule/') . $enc_kode_aturan . '/' . $kode_aturan; ?>">
+                                                <a class="btn btn-sm btn-warning ubah_aturan" href="<?= base_url('siscer/ubah_assign_obat/') . $enc_kode_aturan . '/' . $kode_aturan; ?>">
                                                     <i class="fas fa-fw fa-edit text-white"></i>
                                                 </a>
                                                 <button class="btn btn-sm btn-danger hapus_aturan" data-kode="<?= $enc_kode_aturan; ?>" data-jenis="<?= $kode_aturan; ?>" data-toggle="modal" data-target="#hapusModal">
@@ -157,7 +155,7 @@
     </div>
     <!-- Main Content (End) -->
 </div>
-<!-- Content Wrapper End -->
+<!-- Content Wrapper (End) -->
 
 <!-- Modal Tambah Aturan (Start) -->
 <div class="modal fade" id="tambahModal" role="dialog">
@@ -167,7 +165,7 @@
         <div class="modal-content">
             <!-- Modal Header (Start) -->
             <div class="modal-header">
-                <h4 class="modal-title">Tambah Aturan</h4>
+                <h4 class="modal-title">Tambah Obat Penyakit</h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -175,7 +173,7 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('siscer/insert_rule'); ?>" method="post" id="formAssignRule">
+                <form action="<?= base_url('siscer/insert_assign_obat'); ?>" method="post" id="formAssignRule">
                     <input type="hidden" name="kode_opt" id="kode_opt_rule">
                     <!-- Input Group (Start) -->
                     <div class="form-group">
@@ -194,18 +192,18 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label>Gejala OPT</label>
+                                <label>Obat OPT</label>
                                 <br>
-                                <button type="button" class="btn btn-success btn-md btn_tambah_gejala" data-target="#modalGejala" data-toggle="modal">
-                                    <i class="fas fa-fw fa-plus text-white"></i> Tambah Gejala
+                                <button type="button" class="btn btn-success btn-md btn_tambah_obat" data-target="#modalObat" data-toggle="modal">
+                                    <i class="fas fa-fw fa-plus text-white"></i> Tambah Obat
                                 </button>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="gejala_opt[]">Daftar Gejala</label>
+                                <label for="obat_opt[]">Daftar Obat</label>
                                 <br>
-                                <select name="gejala_opt[]" id="gejala_opt" multiple="multiple" class="form-control">
+                                <select name="obat_opt[]" id="obat_opt" multiple="multiple" class="form-control">
                                 </select>
                             </div>
                         </div>
@@ -330,14 +328,14 @@
 <!-- Modal Opt (End) -->
 
 <!-- Modal Gejala (Start) -->
-<div class="modal fade" id="modalGejala" role="dialog">
+<div class="modal fade" id="modalObat" role="dialog">
     <!-- Modal Dialog (Start) -->
     <div class="modal-dialog modal-lg">
         <!-- Modal Content (Start) -->
         <div class="modal-content">
             <!-- Modal Header (Start) -->
             <div class="modal-header">
-                <h4 class="modal-title">Gejala Organisme Penyerang Tanaman</h4>
+                <h4 class="modal-title">Obat Organisme Penyerang Tanaman</h4>
                 <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -352,19 +350,20 @@
                             <!-- Card Header (Start) -->
                             <div class="card-header">
                                 <h4 class="card-title">
-                                    Tabel Gejala Organisme Penyerang Tanaman
+                                    Tabel Obat Organisme Penyerang Tanaman
                                 </h4>
                             </div>
                             <!-- Card Header (End) -->
                             <!-- Card Body (Start) -->
                             <div class="card-body">
                                 <!-- Data Table (Start) -->
-                                <table id="tableGejala" class="table table-bordered table-striped">
+                                <table id="tableObat" class="table table-bordered table-striped">
                                     <!-- Thead (Start) -->
                                     <thead>
                                         <tr>
                                             <th>No.</th>
-                                            <th>Gejala</th>
+                                            <th>Nama Bahan Aktif</th>
+                                            <th>Nama Dagang</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -373,17 +372,18 @@
                                     <tbody>
                                         <?php
                                         $i = 1;
-                                        foreach ($gejala as $det_gejala) :
-                                            $kode_gejala = substr($det_gejala['kode_gejala'], 0, 2);
+                                        foreach ($obat as $det_obat) :
+                                            $kode_obat = substr($det_obat['kode_obat'], 0, 2);
                                         ?>
                                             <tr>
                                                 <td><?= $i; ?></td>
-                                                <td><?= $det_gejala['gejala']; ?></td>
+                                                <td><?= $det_obat['nama_bahan_aktif']; ?></td>
+                                                <td><?= $det_obat['nama_dagang']; ?></td>
                                                 <td class="d-flex justify-content-around">
                                                     <?php
-                                                    $enc_kode_gejala = substr($det_gejala['kode_gejala'], 2);
+                                                    $enc_kode_obat = substr($det_obat['kode_obat'], 2);
                                                     ?>
-                                                    <button class="btn btn-sm btn-success tambah_gejala" data-kode="<?= $enc_kode_gejala; ?>" data-placeholder="<?= $det_gejala["gejala"]; ?>" data-jenis="<?= $kode_gejala; ?>">
+                                                    <button class="btn btn-sm btn-success tambah_obat" data-kode="<?= $enc_kode_obat; ?>" data-placeholder="<?= $det_obat["nama_bahan_aktif"]; ?>" data-jenis="<?= $kode_obat; ?>">
                                                         <i class="fas fa-fw fa-plus text-white"></i>
                                                     </button>
                                                 </td>
@@ -477,7 +477,7 @@
             <!-- Modal Header (End) -->
             <!-- Modal Body (Start) -->
             <div class="modal-body">
-                <form action="<?= base_url('siscer/delete_rule') ?>" method="post" id="formHapusRule">
+                <form action="<?= base_url('siscer/delete_assign_obat_full') ?>" method="post" id="formHapusRule">
                     <input type="hidden" name="kode_opt" id="kode_opt">
                     <p>Apakah anda yakin akan menghapus data ini ?</p>
             </div>

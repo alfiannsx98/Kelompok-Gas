@@ -94,6 +94,24 @@
                                     <label for="nama_penyakit_inggris">Nama Penyakit (Bahasa Inggris)</label>
                                     <input type="text" name="nama_penyakit_inggris" id="nama_penyakit_inggris" class="form-control" value="<?= $hasil_proses['nama_inggris']; ?>" readonly>
                                 </div>
+                                <div class="col-12 my-2">
+                                    <label for="">Daftar Obat Penyakit</label>
+                                    <ul>
+                                        <?php
+                                        if (count($daftar_obat) > 1) :
+                                            foreach ($daftar_obat as $obat) :
+                                        ?>
+                                                <li><?= $obat['nama_bahan_aktif'] . ' / ' . $obat['nama_dagang']; ?></li>
+                                            <?php
+                                            endforeach;
+                                        else :
+                                            ?>
+                                            <li>Obat Belum Didefinisikan</li>
+                                        <?php
+                                        endif;
+                                        ?>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <!-- Card Body (End) -->
