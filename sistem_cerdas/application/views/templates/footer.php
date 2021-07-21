@@ -5,7 +5,7 @@
             document.write(new Date().getFullYear())
         </script>
         <a class="align-center" href="#">
-            YBM-BRI - Powered By. ADMIN-LTE
+            Kelompok 1 - Powered By. ADMIN-LTE
         </a>
 </footer>
 
